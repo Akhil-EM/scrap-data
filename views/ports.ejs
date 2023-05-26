@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Table Example</title>
+  <style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+    button {
+  /* Set the background color */
+  background-color: dodgerblue;
+  border: none; /* Remove the border */
+  padding: 10px 20px; /* Set padding */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Display as inline-block */
+  font-size: 16px; /* Set font size */
+  cursor: pointer; /* Add a cursor pointer */
+  border-radius: 4px; /* Add border radius */
+  margin:10px;
+}
+
+  </style>
+</head>
+<body>
+  <h3>Ports</h3>
+  <button onclick="window.open('/download/ports')">Download Excel</button>
+  <table>
+    <thead>
+    </thead>
+    <tbody>
+        <% portCount = 0
+          ports.forEach(function(row) { 
+            %>
+            <tr>
+              <%
+                count = 0; 
+                row.forEach(function(cell) {
+                count++;
+                if (portCount !== 0  && (count === 9 || count === 10) ) { %>
+                   <td><a href="<%= cell %>/<%= count === 9 ? row[4] : row[5] %>">view</a></td>
+                <% }else {%>    
+                   <td><%= cell %></td>
+                <% } %>          
+              <% }) %>
+            </tr>
+          <% 
+            portCount++;
+           }) 
+           %>
+    </tbody>
+  </table>
+</body>
+</html>
