@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    input {
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        width: 250px;
+        font-size: large;
+    }
+
+    form {
+        padding: 25px;
+        display: grid;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 15px;
+        background-color: rgba(0, 0, 0, 0.137);
+    }
+
+    form h2 {
+        text-align: center;
+        margin: 0px 0px 60px 0px;
+    }
+
+    form button {
+        background-color: dodgerblue;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin: 30px 0 0 0;
+        border: none;
+    }
+
+    label {
+        margin-top: 25px;
+    }
+</style>
+</head>
+
+<body>
+    <form>
+        <h2>Login to continue</h2>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <button type="button" onclick="loginUser()">Login</button>
+    </form>
+
+</body>
+<script>
+    function loginUser() {
+        const emailIp = document.querySelector("#email");
+        const passwordIp = document.querySelector("#password");
+
+        const email = (emailIp.value).trim();
+        const password = (passwordIp.value).trim();
+        if (!email || !password) {
+            return alert("email and password required");
+        }
+
+        if (!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/).test(email)) {
+            return alert("email is invalid");
+        }
+
+
+        fetch('/login-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(response => {
+                if (response.status === 404) alert("invalid email or password");
+                if(response.status === 200) window.location = '/';
+            })
+
+
+    }
+
+</script>
+
+</html>

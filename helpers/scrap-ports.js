@@ -33,9 +33,7 @@ const scrapPort = async () => {
         }
       });
       if (rowData.length > 0) tableData.push(rowData);
-      console.log('====================================');
-      console.log('writing data ',i);
-      console.log('====================================');
+  
     });
   }
   

@@ -31,6 +31,9 @@
   </style>
 </head>
 <body>
+  <div style="text-align: end;">
+    <button style="background-color:tomato;" onclick="logoutUser()">Logout</button>
+  </div>
   <h3>Ports</h3>
   <button onclick="window.open('/download/ports')">Download Excel</button>
   <table>
@@ -59,4 +62,20 @@
     </tbody>
   </table>
 </body>
+<script>
+   function logoutUser(){
+      fetch('/logout',{
+        method:'DELETE'
+      }).then(response =>{
+        if(response.status === 200){
+          alert('user logged out.')
+          setTimeout(()=>{
+            window.location = '/login';
+          },1000);
+        }else{
+          alert("something went wrong");
+        }
+      })
+   }
+</script>
 </html>
