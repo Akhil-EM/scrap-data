@@ -35,8 +35,8 @@ app.get("/", async (req, res) => {
   //check the user logged in or not
   if (req.session.userLoggedIn) {
     try {
-      // const ports = await scrapPort();
-      const ports = [];
+      const ports = await scrapPort();
+
       res.render("ports", { ports });
     } catch (error) {
       res.send("data scrapping error", error);
