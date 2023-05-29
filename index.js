@@ -11,12 +11,12 @@ const db = {
   user: [
     {
       email: "testuser@gmail.com",
-      password: "d8578edf8458ce06fbc5bb76a58c5ca4",
+      password: "f06bd2625273967e673393346970da46",
     },
   ],
 };
 
-
+console.log(md5('smectech@8172#'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
