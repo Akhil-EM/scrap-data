@@ -16,7 +16,7 @@ const db = {
   ],
 };
 
-console.log(md5('smectech@8172#'));
+// console.log(md5('smectech@8172#'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -33,7 +33,7 @@ app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
   //check the user logged in or not
-  if (req.session.userLoggedIn) {
+ if (req.session.userLoggedIn) {
     try {
       const ports = await scrapPort();
 

@@ -13,30 +13,38 @@ const scrapPort = async () => {
     const table = document.querySelector("table");
     const rows = table.querySelectorAll("tr");
     let portId;
+
     rows.forEach((row) => {
       const cells = row.querySelectorAll("td");
-      const rowData = [];
-      cells.forEach((cell) => {
-        const href = cell.childNodes[0].href;
-        if (href !== undefined) {
-          const splitted = href.split("#inport");
-          if (splitted.length === 2) portId = splitted[0].split("-id-")[1];
+      const image = row.querySelector("img");
+
+      if (image) {
+        const src = image.src.split("/").slice(-1)[0];
+        if (["IN.png", "AE.png"].includes(src)) {
+          //scrap data of india and middle east
+          const rowData = [];
+          cells.forEach((cell) => {
+            const href = cell.childNodes[0].href;
+            if (href !== undefined) {
+              const splitted = href.split("#inport");
+              if (splitted.length === 2) portId = splitted[0].split("-id-")[1];
+            }
+            const cellContent = cell.textContent.trim();
+            //if(rowData.length = 0) rowData.push(href);
+            if (cellContent.length > 0 && cellContent.length < 50) {
+              rowData.push(cellContent);
+              if (rowData.length === 7) {
+                rowData.unshift(portId);
+                rowData.push(`/in-port/${portId}`, `/arrivals/${portId}`,getCountryName(src));
+              }
+            }
+          });
+          if (rowData.length > 0) tableData.push(rowData);
         }
-        const cellContent = cell.textContent.trim();
-        //if(rowData.length = 0) rowData.push(href);
-        if (cellContent.length > 0 && cellContent.length < 50) {
-          rowData.push(cellContent);
-          if (rowData.length === 7){
-            rowData.unshift(portId);
-            rowData.push(`/in-port/${portId}`,`/arrivals/${portId}`)
-          };
-        }
-      });
-      if (rowData.length > 0) tableData.push(rowData);
-  
+      }
     });
   }
-  
+
   tableData.unshift([
     "Port Id",
     "Port Name",
@@ -47,7 +55,8 @@ const scrapPort = async () => {
     "Departures",
     "Excepted Arrivals",
     "View Vessels In port",
-    "View Expected Arrivals"
+    "View Expected Arrivals",
+    "Country"
   ]);
   XLSX.utils.sheet_add_aoa(worksheet, tableData, { origin: -1 });
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -56,4 +65,14 @@ const scrapPort = async () => {
   return tableData;
 };
 
+function getCountryName(src) {
+  switch (src) {
+    case "IN.png":
+      return "India";
+    case "AE.png":
+      return "Uae";
+    default:
+      return null;
+  }
+}
 module.exports = scrapPort;
